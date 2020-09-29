@@ -1,0 +1,57 @@
+version: '3'
+
+#rede na qual os containers abaixo irão operar (permite a comunicação entre os mesmos)
+networks:
+    app-network:
+            driver: bridge
+
+#Define os serviços que irão ser criados (cada um dos serviços abaixo irá gerar um container próprio a partir das configurações definidas abaixo para cada um deles)
+services:
+
+    app:
+        #nesse exemplo assuma um docker file semelhante ao do código acima, configurando o Laravel
+        build: . 
+        container_name: app
+        volumes:
+            - .:/var/www/
+        networks:
+            - app-network
+        depends_on: #só sobe esse serviço no comando de compose depois que o serviço de db estiver de pé
+            - db
+    nginx:
+        #docker file básico usando a última versão do nginx 
+        build: .docker/nginx
+        container_name: nginx
+        restart: always #caso o container caia, permite reinicia-lo?
+        tty: true #permite iteração com o container rodando. ex: abrir o bash iterativo no container
+        ports:
+            - 8000:80
+        volumes:
+            - .:/var/www/
+        networks:
+            - app-network
+    db:
+        image: mysql:5.7
+        command: --innodb-use-native-aio=0
+        container_name: db
+        tty: true
+        restart: always
+        ports:
+            - 3306:3306
+        volumes:
+            - ./.docker/dbdata:/var/lib/mysql #passo essencial para que as tabelas criadas pelo laravel não se percam sempre que o container morrer
+        #Na imagem do MySql existem váriaveis de ambiente já criadas, que podem ser utilizadas para de uma maneira simples já configurar os dados de um banco de dados inicial
+        environment:
+            - MYSQL_DATABASE=laravel
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_USER=root
+        networks:
+            - app-network
+
+    redis:
+        image: redis:alpine
+        expose:
+            - 6379
+        networks:
+            - app-network
+        
