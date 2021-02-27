@@ -12,7 +12,7 @@ services:
         #nesse exemplo assuma um docker file semelhante ao do código acima, configurando o Laravel
         build: . 
         container_name: app
-        entrypoint: dockerize -wait tcp://db:3306 -timeout 40s php-fpm
+        entrypoint: dockerize -wait tcp://db:3306 -timeout 40s ./.docker/entrypoint.sh
         volumes:
             - .:/var/www/
         networks:
