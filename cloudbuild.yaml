@@ -29,7 +29,7 @@ steps:
 
 - id: "Rodando logs db"
   name: 'gcr.io/cloud-builders/docker'
-  args: ['log','db']
+  args: ['logs','db']
 
 - id: "Rodando migrations"
   name: 'gcr.io/cloud-builders/docker'
