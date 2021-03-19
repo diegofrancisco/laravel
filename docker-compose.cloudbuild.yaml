@@ -53,9 +53,8 @@ services:
         #Na imagem do MySql existem váriaveis de ambiente já criadas, que podem ser utilizadas para de uma maneira simples já configurar os dados de um banco de dados inicial
         environment:
             - MYSQL_DATABASE=laravel
+            - MYSQL_USER=root
             - MYSQL_ROOT_PASSWORD=root
-            - MYSQL_USER=diego
-            - MYSQL_PASSWORD=laravel
         networks:
             - app-network
 
