@@ -27,6 +27,10 @@ steps:
   name: 'gcr.io/cloud-builders/docker'
   args: ['ps']
 
+- id: "Rodando logs db"
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['log','db']
+
 - id: "Rodando migrations"
   name: 'gcr.io/cloud-builders/docker'
   args: ['exec','-t', 'app', 'php', '/var/www/artisan', 'migrate']
