@@ -48,9 +48,9 @@ services:
         restart: always
         ports:
             - 3306:3306
-        volumes:
-            - ./.docker/dbdata:/var/lib/mysql #passo essencial para que as tabelas criadas pelo laravel não se percam sempre que o container morrer
-        #Na imagem do MySql existem váriaveis de ambiente já criadas, que podem ser utilizadas para de uma maneira simples já configurar os dados de um banco de dados inicial
+        # volumes:
+        #     - ./.docker/dbdata:/var/lib/mysql #passo essencial para que as tabelas criadas pelo laravel não se percam sempre que o container morrer
+        # #Na imagem do MySql existem váriaveis de ambiente já criadas, que podem ser utilizadas para de uma maneira simples já configurar os dados de um banco de dados inicial
         environment:
             - MYSQL_DATABASE=laravel
             - MYSQL_USER=root
